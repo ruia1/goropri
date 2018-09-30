@@ -1,4 +1,4 @@
-goropri ver 0.1.1
+goropri ver 0.1.2
 作成者：るいあ
 Twitter：@ruia_prime
 mail：primequadrupret@gmail.com
@@ -37,5 +37,5 @@ Help
 　このソフトを通したデータ収集などは行っていません。
 　このソフトの利用を知らせていただけると、作成者が喜びます。
 
-2018/6/2 作成
+2018/6/8 作成
 るいあ

@@ -117,7 +117,7 @@ def makegoro():
     orcontinue = 1
     setupgoro()
     if goro.count == 0:
-        stnuo = input("語呂が登録されていません。基本セットを登録しますか？"
+        stnup = input("語呂が登録されていません。基本セットを登録しますか？"
                       +"はい：１ いいえ：０\n")
         if stnup == "1" or stnup == "１":
             print("基本セットを登録しました。")
