@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['goropri.py'],
-             pathex=['C:\\Users\\tyyth\\Desktop\\Python\\goropri'],
+             pathex=['C:\\Users\\tyyth\\Desktop\\goropri\\goropri'],
              binaries=[],
              datas=[],
              hiddenimports=[],
