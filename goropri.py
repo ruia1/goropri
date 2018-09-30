@@ -3,9 +3,16 @@ from random import randint
 gcsv = "goro.csv"
 goros = []
 
+from random import randint
+from math import sqrt
 def milpri(n):
-    if n==2: return True
-    if n == 1 or n & 1 == 0: return False
+    if type(n) != int or n < 2: return False
+    if n == 2: return True
+    if n & 1 == 0: return False
+    if n < 5000:
+        for i in range(3,int(sqrt(n))+1,2):
+            if n%i == 0: return False
+        return True
     d = (n - 1) >> 1
     while d & 1 == 0:
         d >>= 1
@@ -21,7 +28,6 @@ def milpri(n):
 
 class goro:
     count = 0
-
     def __init__(self,num,gint,gchar,gilen=0,gclen=0):
         goro.count = int(num)
         self.num = int(num)
@@ -58,7 +64,7 @@ class finds:
         del self.flis
         self.flis = []
         for gc in range(self.lenflis):
-            adar = self.flis.append(self.fvalue // (goro.count ** gc) % goro.count)
+            self.flis.append(self.fvalue // (goro.count ** gc) % goro.count)
 
     def addf(self,increminal = 1):
         self.fvalue += increminal
@@ -69,11 +75,6 @@ class finds:
                 self.lenflis += 1
                 i //= goro.count
         self.setupf()
-        #o = 0
-        #for i in self.flis:
-        #    if i in self.flis[i+1:] or i in self.flis[:i-1]:
-        #        self.addf(goro.count**o)
-        #    o += 1
         
     def orend(self):
         if self.fvalue > goro.count ** goro.count or self.orendsub():
@@ -119,12 +120,16 @@ def goromake():
     orcontinue = 1
     setupgoro()
     if goro.count == 0:
-        stnup = input("語呂が登録されていません。基本セットを登録しますか？"
-                      +"はい：１ いいえ：０ を入力してください。\n")
-        if stnup == "1" or stnup == "１":
+        print("語呂が登録されていません。基本セットを登録しますか？"+
+              "はい：１ いいえ：０ を入力してください。")
+        stnup = input()
+        print()
+        if stnup in ["1","１"]:
             print("基本セットを登録しました。")
             standardsetup()
-            orcontinue = input("続けて登録しますか？　はい：１ いいえ：０ を入力してください。\n")
+            print("続けて登録しますか？　はい：１ いいえ：０ を入力してください。")
+            orcontinue = input()
+            print()
             try:
                 orcontinue = int(orcontinue)
             except ValueError:
@@ -132,7 +137,9 @@ def goromake():
     if orcontinue == 1:
         print("語呂を登録します。「end」を入力することでいつでも登録を終了できます。")
     while orcontinue == 1:
-        maknumber = input("語呂のパーツとなる数字を入力してください。\n")
+        print("語呂のパーツとなる数字を入力してください。")
+        maknumber = input()
+        print()
         if maknumber == "end":
             print("メニューに戻ります。\n")
             return
@@ -141,16 +148,19 @@ def goromake():
         except ValueError:
             print("正しい値を入力してください。登録に失敗しました。\n")
             continue
-        makgoro = input("数字の語呂を入力してください。\n")
+        print("数字の語呂を入力してください。")
+        makgoro = input()
         if makgoro == "end":
             print("メニューに戻ります。\n")
             return
-        ok = input("数字：" + str(maknumber) + " 語呂：" + makgoro + " で登録します。よろしいですか？\n"
-                   +"はい：１ いいえ：０ を入力してください。\n")
+        print("\n数字：" + str(maknumber) + " 語呂：" + makgoro + " で登録します。よろしいですか？\n"+
+              "はい：１ いいえ：０ を入力してください。")
+        ok = input()
+        print()
         if ok == "end":
             print("メニューに戻ります。\n")
             return
-        if ok == "1":
+        if ok in ["1","１"]:
             setupgoro()
             ok2 = True
             for row in goros:
@@ -160,11 +170,17 @@ def goromake():
             if ok2:
                 updategoro(goro(goro.count+1,maknumber,makgoro))
                 print("登録に成功しました。")
-            else:print("既に登録されています。登録に失敗しました。")
+            else:
+                print("既に登録されています。登録に失敗しました。")
+        else:
+            print("登録しませんでした。")
+        print("登録を続けますか？　はい：１ いいえ：０ を入力してください。")
         try:
-            orcontinue = int(input("登録を続けますか？　はい：１ いいえ：０ を入力してください。\n"))
+            orcontinue = int(input())
+            print()
         except ValueError:
             orcontinue = 0
+            print()
     print("メニューに戻ります。\n")
     
 def goroprintlist():
@@ -184,7 +200,9 @@ def delgoro():
     while True:
         print("語呂を削除します。「end」を入力することでいつでも削除を終了できます。")
         goroprintlist()
-        delg = input("削除する語呂を、番号で選択してください。\n")
+        print("削除する語呂を、番号で選択してください。")
+        delg = input()
+        print()
         if delg == "end":
             print("メニューに戻ります。\n")
             return
@@ -196,7 +214,10 @@ def delgoro():
         if delg not in range(1,goro.count+1):
             print("正しい値を入力してください。")
             continue
-        ok = input(str(delg) + "番目の" + str(goros[delg-1].gint) + ":" + goros[delg-1].gchar + "を削除します。よろしいですか？\nはい：１ いいえ：０ を入力してください。\n")
+        print(str(delg) + "番目の" + str(goros[delg-1].gint) + ":" + goros[delg-1].gchar + "を削除します。よろしいですか？\n"+
+              "はい：１ いいえ：０ を入力してください。")
+        ok = input()
+        print()
         if ok == "end":
             print("メニューに戻ります。\n")
         with open(gcsv,'w') as f:
@@ -211,30 +232,15 @@ def delgoro():
         if goro.count == 0:
             print("語呂が登録されていません。語呂を登録してください。\n")
             return
-        try:
-            orcontinue = int(input("削除を続けますか？　はい：１ いいえ：０ を入力してください。\n"))
-        except:
-            print("メニューに戻ります。\n")
-            return
-        if orcontinue == 1:
+        print("削除を続けますか？　はい：１ いいえ：０ を入力してください。")
+        if input() in ["1","１"]:
             continue
         else:
             print("メニューに戻ります。\n")
-            return
-        
-#def printtlist():
-	
-	#def entrytype():
-
-	#def addtype():
-
-        #def deltype():
-    
 def arrayispri():
     global findp
-    ret = ""
-    reti = ""
-    retc = ""
+    reti = "" #returnint
+    retc = "" #returnchar
     relen = 0
     for i in findp.flis:
         reti += str(goros[i].getgint())
@@ -263,14 +269,17 @@ def findpri():
 def findprimenu():
     orcontinue = "1"
     global findp
-    while orcontinue == "1" or orcontinue == "１":
+    while orcontinue in ["1","１"]:
         setupgoro()
         if goro.count == 0:
-            stnup = input("語呂が登録されていません。基本セットを登録しますか？"
-                  +"はい：１ いいえ：０ を入力してください。\n")
-            if stnup == "1" or stnup == "１":
+            print("語呂が登録されていません。基本セットを登録しますか？"
+                  +"はい：１ いいえ：０ を入力してください。")
+            stnup = input()
+            if stnup in ["1","１"]:
                 standardsetup()
-                orcontinue = input("続けて登録しますか？　はい：１ いいえ：０ を入力してください。\n")
+                print("続けて登録しますか？　はい：１ いいえ：０ を入力してください。")
+                orcontinue = input()
+                print()
                 continue
             else:
                 print("語呂を登録してください。\n")
@@ -279,9 +288,11 @@ def findprimenu():
         print(goro.count,"個の語呂から、語呂素数を生成します。\n"
               ,"「end」を入力することでいつでも生成を終了できます。")
         goroprintlist()
-        fgoro = input("探索する素数に含まれる語呂を、データベースの番号で入力してください。\n"
+        print("探索する素数に含まれる語呂を、データベースの番号で入力してください。\n"
                       +"すべての設定を指定しない場合、rを入力してください。\n"
-                      +"指定しない場合は、0を入力してください。\n")
+                      +"指定しない場合は、0を入力してください。")
+        fgoro = input()
+        print()
         if fgoro == "end":
             print("メニューに戻ります。\n")
             return
@@ -296,7 +307,9 @@ def findprimenu():
             except ValueError:
                 print("正しい値を入力してください。")
                 continue
-            fmax = input("探索する素数の、最大の桁数を入力してください。指定しない場合は、０を入力してください。最大値は３０です。\n")
+            print("探索する素数の、最大の桁数を入力してください。指定しない場合は、０を入力してください。最大値は３０です。")
+            fmax = input()
+            print()
             if fmax == "end":
                 print("メニューに戻ります。\n")
                 return
@@ -309,7 +322,9 @@ def findprimenu():
                 if findp.fmax != 0 and findp.fmax < 2:
                     print("正しい値を入力してください。")
                     continue
-                fmin = input("探索する素数の、最小の桁数を入力してください。指定しない場合は、０を入力してください。\n")
+                print("探索する素数の、最小の桁数を入力してください。指定しない場合は、０を入力してください。")
+                fmin = input()
+                print()
                 if fmin == "end":
                     print("メニューに戻ります。\n")
                     return
@@ -322,7 +337,9 @@ def findprimenu():
                     print("正しい値を入力してください。")
                     continue
                 else:
-                    fmany = input("探索する素数の数を入力してください。指定しない場合は０を入力してください。規定値は５、最大値は５０です。\n")
+                    print("探索する素数の数を入力してください。指定しない場合は０を入力してください。規定値は５、最大値は５０です。")
+                    fmany = input()
+                    print()
                     if fmany == "end":
                         print("メニューに戻ります。\n")
                         return
@@ -338,7 +355,9 @@ def findprimenu():
                         findp.fmany = 5
                     print("探索を開始します。")
                     findpri()
-        orcontinue = input("続けますか？ はい：１ いいえ：０ を入力してください。\n")
+        print("続けますか？ はい：１ いいえ：０ を入力してください。")
+        orcontinue = input()
+        print()
     print("メニューに戻ります。\n")
                      
 def jump(jmode):
@@ -353,39 +372,45 @@ def jump(jmode):
             goroprintlist()
         elif jmode == "g.del":
             delgoro()
-        #elif jmode == "t.entry":
-        #    entrytype()
-        #elif jmode == "t.list":
-        #    printtlist()
-        #elif jmode == "t.add":
-        #    addtype()
         else:
             print("正しい値を入力してください。\n")
         return
             
 def menu():
     while True:
-        mmode = input("詳細メニューです。行いたい操作のコードを入力してください。\n"+
+        print("詳細メニューです。行いたい操作のコードを入力してください。\n"+
                       "ホーム：home 終了：end\n"+
-                      "語呂素数生成：find 語呂登録：g.entry 語呂削除：g.del 登録された語呂一覧：g.list\n")
-                      #"タイプの登録：t.entry 登録されたタイプ一覧：t.list 既存の語呂にタイプを追加：t.add\n")
+                      "語呂素数生成：find 語呂登録：g.entry 語呂削除：g.del 登録された語呂一覧：g.list")
+        mmode = input()
         if mmode == "end":
-            print("終了します。")
-            input("終了するにはエンターを押してください...")
+            print("終了します。\n")
+            if '__main__'==__name__:
+                input("終了するにはエンターを押してください...")
             return True
         elif mmode == "home":
-            print ("ホームに戻ります。\n")
+            print("\nホームに戻ります。\n")
             return False
         else:
+            print()
             jump(mmode)
-    
-def home():
+
+def openg():
+    try:
+        f = open(gcsv,'x')
+        f.close()
+        print("語呂ファイルが存在しないため、新規作成しました。\n")
+    except FileExistsError:
+        print("語呂ファイルのオープンに成功しました。\n")
+def gohome():
+    openg()
     while True:
-        mode = input("ホームメニューです。行いたい操作のコードを入力してください。\n"+
-                     "語呂素数生成：find 語呂登録：g.entry 詳細メニュー：menu 終了：end\n")
+        print("語呂モードホームメニューです。行いたい操作のコードを入力してください。\n"+
+              "語呂素数生成：find 語呂登録：g.entry 詳細メニュー：menu 終了：end\n")
+        mode = input()
         if mode == "end":
-            print("終了します。")
-            input("終了するにはエンターを押してください...")
+            print("終了します。\n")
+            if '__main__'==__name__:
+                input("終了するにはエンターを押してください...")
             return
         elif mode == "menu":
             menureturn = menu()
@@ -393,17 +418,6 @@ def home():
                 return
         else:
             jump(mode)
-
-try:
-    f = open(gcsv,'x')
-    f.close()
-    print("語呂ファイルが存在しないため、新規作成しました。\n")
-except FileExistsError:
-    print("語呂ファイルのオープンに成功しました。\n")
-        
-home()
-#    try:
-#        f = open('gorotype.csv','x')
-#        f.close()
-#    except FileExistsError:
-#        print("ファイルの新規作成に失敗しました。")
+            
+if '__main__'==__name__:
+    gohome()
